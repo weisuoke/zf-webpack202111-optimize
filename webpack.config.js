@@ -12,7 +12,10 @@ module.exports = smw.wrap({
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js'
+    filename: 'main.js',
+    libraryExport: 'add', // 配置导出的模块中哪些子模块需要被导出，它只有在 libraryTarget 设置为 commonjs 的时候才有用
+    library: 'calculator',  // 指定导出库的名称
+    libraryTarget: 'commonjs2', // 以何种方式导出
   },
   // 此处用来找普通模块
   resolve: {
@@ -56,6 +59,6 @@ module.exports = smw.wrap({
       contextRegExp: /moment$/,  // 忽略 哪个模块
       resourceRegExp: /locale/, // 忽略模块内的哪些资源
     }),
-    new BundleAnalyzerPlugin()
+    // new BundleAnalyzerPlugin()
   ]
 })

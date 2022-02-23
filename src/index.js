@@ -1,1 +1,5 @@
-import moment from 'moment'
+module.exports = {
+  add (a, b) {
+    return a + b;
+  }
+}
