@@ -1,5 +1,1 @@
-module.exports = {
-  add (a, b) {
-    return a + b;
-  }
-}
+import './index.css'
