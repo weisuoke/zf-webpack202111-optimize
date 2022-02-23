@@ -15,14 +15,17 @@ const smw = new SpeedMeasureWebpackPlugin();
 module.exports = {
   mode: 'none',
   devtool: false,
-  entry: './src/index.js',
+  entry: {
+    main: './src/index.js',
+    vendor: ['lodash']
+  },
   optimization: {
     minimize: true,
     minimizer: [new TerserPlugin(), new CssMinimizerPlugin()]
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js',
+    filename: '[name].[chunkhash].js',
     // libraryExport: 'add', // 配置导出的模块中哪些子模块需要被导出，它只有在 libraryTarget 设置为 commonjs 的时候才有用
     library: 'calculator',  // 指定导出库的名称
     libraryTarget: 'umd', // 以何种方式导出
@@ -86,7 +89,7 @@ module.exports = {
       resourceRegExp: /locale/, // 忽略模块内的哪些资源
     }),
     new MiniCssExtractPlugin({
-      filename: 'style/[name].css'
+      filename: 'style/[name].[contenthash].css'
     }),
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: ['**/*']
