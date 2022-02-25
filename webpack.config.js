@@ -13,22 +13,27 @@ const PurgecssPlugin = require("purgecss-webpack-plugin");
 const smw = new SpeedMeasureWebpackPlugin();
 
 module.exports = {
-  mode: 'none',
+  mode: 'development',
   devtool: false,
   entry: {
     main: './src/index.js',
-    vendor: ['lodash']
+    // vendor: ['lodash']
   },
-  optimization: {
-    minimize: true,
+  optimization: { 
+    usedExports: true,
+    minimize: false,
     minimizer: [new TerserPlugin(), new CssMinimizerPlugin()]
+  },
+  cache: {
+    type: 'filesystem', // 内存或文件系统
+    cacheDirectory: path.resolve(__dirname, 'node_modules/.cache/webpack')
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[chunkhash].js',
     // libraryExport: 'add', // 配置导出的模块中哪些子模块需要被导出，它只有在 libraryTarget 设置为 commonjs 的时候才有用
-    library: 'calculator',  // 指定导出库的名称
-    libraryTarget: 'umd', // 以何种方式导出
+    // library: 'calculator',  // 指定导出库的名称
+    // libraryTarget: 'umd', // 以何种方式导出
   },
   // 此处用来找普通模块
   resolve: {
@@ -53,10 +58,18 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {}
-        }
+        use:[
+          {
+            loader: 'thread-loader',
+            options: {
+              workers: 3
+            }
+          },
+          {
+            loader: 'babel-loader',
+            options: {}
+          }
+        ]
       },
       {
         test: /\.css$/,

@@ -17,3 +17,7 @@
 
 每个入口都有自己的 chunkhash
 如果本入口对应的文件发生改变，chunkhash会改变，如果没有改变，chunkhash会保持不变
+
+## Tree shaking
+
+webpack5 的 Tree shaking 相对于 webpack4 有很大的改进，但是相对于 rollup，还是差点。

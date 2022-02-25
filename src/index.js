@@ -1,3 +1,3 @@
-import './index.css'
+import { fun1, fun2 } from "../module1";
 
-console.log('1')
+fun2()
